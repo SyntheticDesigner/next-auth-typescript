@@ -1,16 +1,21 @@
 //[...nextauth] is a catch all slug for requests sent to the auth api
 import NextAuth from "next-auth";
-import Providers from "next-auth/providers";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyPassword } from "../../../lib/auth";
 import { connectToDatabase } from "../../../lib/db";
 
 export default NextAuth({
   session: {
-    jwt: true,
+    strategy: "jwt",
   },
   //sessions is a setting used by next auth here we can tell it to use json web tokens
+  secret: process.env.AUTH_SECRET,
   providers: [
-    Providers.Credentials({
+    CredentialsProvider({
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "email@test.com" },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials: { email: string; password: string }) {
         const client = await connectToDatabase();
 

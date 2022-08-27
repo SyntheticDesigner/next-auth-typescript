@@ -1,6 +1,6 @@
 // /api/user/change-password
 import { NextApiHandler } from "next";
-import { getSession } from "next-auth/client";
+import { getSession } from "next-auth/react";
 import { hashPassword, verifyPassword } from "../../../lib/auth";
 import { connectToDatabase } from "../../../lib/db";
 

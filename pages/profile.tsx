@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import UserProfile from "../components/profile/user-profile";
-import { getSession } from "next-auth/client";
+import { getSession } from "next-auth/react";
 
 const ProfilePage: NextPage = () => {
   return <UserProfile />;
