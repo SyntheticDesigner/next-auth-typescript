@@ -5,7 +5,7 @@ import { hashPassword, verifyPassword } from "../../../lib/auth";
 import { connectToDatabase } from "../../../lib/db";
 
 const handler: NextApiHandler = async (req, res) => {
-  if (req.method !== "Patch") {
+  if (req.method !== "PATCH") {
     return;
   }
 
@@ -38,7 +38,8 @@ const handler: NextApiHandler = async (req, res) => {
 
   const currentPassword = user.password;
 
-  const passwordsAreEqual = verifyPassword(oldPassword, currentPassword);
+  const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword);
+  console.log(passwordsAreEqual);
 
   if (!passwordsAreEqual) {
     res.status(403).json({ message: "Invalid Password" });
@@ -51,6 +52,7 @@ const handler: NextApiHandler = async (req, res) => {
     { email: userEmail },
     { $set: { password: hashedPassword } }
   );
+  //   console.log(result);
   //$set is a special keyword recognized by mongodb, it takes the update object, if the key does not match a key in the object it will make a new one
   client.close();
   res.status(200).json({ message: "Password updated" });
